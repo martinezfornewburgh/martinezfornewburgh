@@ -1,0 +1,1459 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #3B0764;
+  --secondary-color: #F26419;
+  --accent-color: #DB2777;
+  --white-color: #F1EFFD;
+  --font-heading: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-decorative: 'Courgette', cursive;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  background-color: var(--white-color);
+}
+
+@layer components {
+  .container {
+    @apply px-4 md:px-8 mx-auto max-w-7xl;
+  }
+  
+  /* Hero Section Styles */
+  .hero-section {
+    @apply relative overflow-visible w-full;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .hero-background {
+    @apply w-full bg-primary relative;
+    height: 800px;
+    /* The clip path creates a diagonal cut at the bottom - right side lower */
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%);
+  }
+  
+  .site-header {
+    @apply w-full px-20 pt-10 flex justify-end items-center z-30 relative h-24;
+  }
+  
+  .logo-container {
+    @apply absolute left-20 top-10 z-40;
+  }
+  
+  .logo-image {
+    @apply w-auto h-auto;
+  }
+  
+  .main-navigation {
+    @apply hidden md:flex items-center gap-6;
+  }
+  
+  .nav-link {
+    @apply hover:text-secondary transition;
+    color: var(--white-color);
+  }
+  
+  .donate-button {
+    @apply bg-accent hover:bg-accent/90 px-5 py-2 rounded-full font-medium transition;
+    color: var(--white-color);
+    border-radius: 100px;
+  }
+  
+  .hero-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  .hero-backdrop-image-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 75%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+  }
+  
+  .hero-backdrop-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    opacity: 0.6;
+    z-index: 1;
+  }
+  
+  .hero-backdrop .backdrop-image {
+    z-index: 0;
+  }
+  
+  .backdrop-image {
+    @apply object-cover object-center opacity-40;
+    mix-blend-mode: multiply;
+  }
+  
+  .hero-content {
+    overflow: visible; /* Allow content to overflow */
+    @apply container mx-auto flex flex-col justify-center h-full;
+    position: relative;
+  }
+  
+  .content-wrapper {
+    @apply flex flex-col lg:flex-row items-center relative z-20;
+    padding-top: 0;
+    gap: 160px; /* Adding 80px gap between left and right sections */
+  }
+  
+  .candidate-image-container {
+    @apply w-full lg:w-1/2 relative order-2 lg:order-1 flex items-end justify-center lg:justify-start;
+    padding-top: 240px; /* Increased padding to push image down */
+    padding-bottom: 0;
+    margin-top: -200px;
+    height: 800px;
+    overflow: visible; /* Allow image to overflow the container */
+  }
+  
+  .image-wrapper {
+    @apply relative;
+    width: 92%; /* Reduce width slightly */
+    height: 100%; /* Adjust height proportionally */
+    max-width: 780px; /* Reduce max-width from 850px */
+    position: relative;
+    bottom: -30px; /* Push image down to be cut by diagonal */
+  }
+  
+  .candidate-image {
+    object-fit: cover !important;
+    height: 100%;
+    width: 100% !important;
+    transform: scale(0.95);
+    transform-origin: center bottom;
+    object-position: 50% 50%; /* Center the image horizontally and vertically */
+  }
+  
+  @media (max-width: 768px) {
+    .candidate-image {
+      object-position: 50% 50% !important; /* Center the image horizontally and vertically */
+      transform: scale(1);
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      max-height: none; /* Remove max-height restriction */
+      max-width: none; /* Remove max-width restriction */
+    }
+  }
+  
+  .hero-text {
+    @apply w-full lg:w-1/2 px-6 lg:px-12 py-8 flex flex-col items-center text-center order-1 lg:order-2;
+    margin-top: -100px; /* Adjusted to center the text better */
+    max-height: 450px;
+    position: relative; /* Added to serve as positioning context for video player */
+  }
+  
+  .hero-heading {
+    font-family: var(--font-heading);
+    font-size: 64px;
+    font-weight: 900;
+    white-space: nowrap; /* Prevent wrapping to new line */
+    color: var(--white-color);
+    margin-bottom: 1.5rem;
+  }
+  
+  .hero-subheading {
+    font-family: var(--font-body);
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--white-color);
+    margin-bottom: 1.5rem;
+    max-width: 32rem;
+    text-align: center;
+  }
+  
+  .hero-text a {
+    @apply flex items-center hover:text-accent transition underline;
+    color: var(--white-color);
+  }
+  
+  .voting-info-link {
+    @apply flex items-center hover:text-accent transition underline;
+    margin-top: 16px;
+    color: var(--white-color);
+  }
+  
+  @media (max-width: 768px) {
+    .voting-info-link {
+      margin-top: 16px;
+    }
+  }
+  
+  .voting-info-icon {
+    @apply ml-1 w-4 h-4;
+  }
+  
+  /* Floating elements container */
+  .floating-elements-container {
+    @apply relative;
+    width: 100%;
+  }
+  
+  .video-player {
+    position: relative;
+    width: 120%; /* Increased to 1.2x size */
+    aspect-ratio: 16/9; /* Maintain aspect ratio */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: -120px; /* Raised by 40px from -80px */
+    left: calc(50% - 24px); /* Move 24px to the left */
+    transform: translateX(-50%);
+    z-index: 2;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+  }
+  
+  /* Responsive adjustments for video player */
+  @media (max-width: 1023px) {
+    .video-player {
+      position: relative;
+      top: -80px; /* Less overlap on mobile but still significant - lowered by 40px */
+      width: 90%;
+    }
+  }
+  
+  .video-play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: var(--primary-color);
+    z-index: 2;
+    transition: all 0.3s ease;
+  }
+
+  .video-play-button:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    background-color: var(--accent-color); /* Pink background on hover */
+    color: var(--white-color); /* White icon on hover */
+  }
+  
+  .play-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .campaign-slogan {
+    position: relative;
+    z-index: 5;
+    display: inline-block;
+    margin: 0 auto; /* Center horizontally */
+    transform: rotate(4deg); /* Restored tilt */
+    padding: 4px;
+  }
+  
+  .slogan-text {
+    @apply text-primary leading-tight;
+    font-family: 'Mr Dafoe', cursive; /* Changed to Mr Dafoe font */
+    font-size: 54px; /* Further reduced from 60px */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    display: block; /* Allow for line breaks between lines */
+    text-align: center;
+  }
+  
+  .english-slogan {
+    display: block;
+    padding-left: 2em;
+    width: 100%; /* Fill the width */
+  }
+  
+  /* Large screen styles */
+  @media (min-width: 1024px) {
+    .campaign-slogan {
+      width: 100%;
+    }
+  }
+  
+  .hero-white-section {
+    @apply pt-4 pb-0 relative z-10;
+    background-color: var(--white-color);
+    width: 100%;
+  }
+
+  /* Two-column layout in white section */
+  .content-columns {
+    @apply flex flex-col lg:flex-row items-start;
+    padding-top: 10px;
+    gap: 160px !important;
+  }
+
+  @media (max-width: 768px) {
+    .content-columns {
+      gap: 24px !important;
+    }
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .content-column-text {
+    @apply w-full lg:w-1/2 px-6 lg:px-12;
+  }
+
+  .content-column-video {
+    @apply w-full lg:w-1/2 px-6 lg:px-12;
+    position: relative; /* Added to serve as positioning context for the absolute video player */
+    min-height: 400px; /* Ensure there's enough space for the video player */
+  }
+
+  .section-heading {
+    @apply text-primary mb-6;
+    font-family: var(--font-heading);
+    font-size: 36px;
+    font-weight: 700;
+  }
+
+  .section-text {
+    @apply text-gray-700 mb-6;
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  .learn-more-link {
+    @apply text-accent flex items-center hover:text-primary transition;
+    font-weight: 500;
+  }
+
+  .learn-more-icon {
+    @apply ml-1 w-4 h-4;
+  }
+
+  /* Section containers */
+  .section-container {
+    @apply w-full;
+    padding: 80px 0;
+    margin: 0;
+  }
+
+  /* Hero section is exempt from standard padding */
+  .hero-section {
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Video player section is exempt from standard padding */
+  .video-player-section {
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Accomplishments Section Styles */
+  .accomplishments-section {
+    @apply relative;
+    background-color: var(--white-color);
+    padding-bottom: 16px;
+  }
+
+  @media (min-width: 768px) {
+    .accomplishments-section {
+      padding-bottom: 0px;
+    }
+  }
+
+  .accomplishments-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 80px;
+    width: 100%;
+    margin-bottom: 3rem;
+   
+    @media (max-width: 768px) {
+      flex-direction: column;
+      width: 100%;
+      max-width: 100%;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+
+  .section-title {
+    @apply text-primary text-center mb-16;
+    font-family: var(--font-heading);
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .accomplishment-card {
+    @apply text-primary rounded-lg overflow-hidden flex flex-col;
+    background-color: var(--white-color);
+    width: 100%;
+    max-width: 350px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid #3B0764;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 0 rgba(59, 7, 100, 0.25);
+  }
+
+  .accomplishment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 13px 0 rgba(59, 7, 100, 0.25);
+  }
+
+  .card-content {
+    @apply p-6;
+    flex: 1;
+    order: 1;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+  }
+
+  /* Mobile adjustments for card content */
+  @media (max-width: 640px) {
+    .card-content {
+      padding: 8px;
+    }
+  }
+
+  .card-title {
+    @apply text-xl font-bold mb-3;
+    color: var(--white-color);
+  }
+
+  .card-description {
+    @apply text-base;
+    line-height: 1.5;
+    color: var(--white-color);
+  }
+
+  .card-image-container {
+    @apply relative;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #3B0764;
+    order: 2;
+    margin-top: auto;
+  }
+
+  .card-image {
+    @apply w-full h-full object-cover;
+    display: block;
+  }
+  
+  .view-more-container {
+    @apply text-center mt-12;
+  }
+
+  .view-more-link {
+    @apply inline-block transition;
+    font-weight: 500;
+    font-size: 18px;
+    color: #3B0764;
+    text-decoration: underline;
+    padding: 8px 16px;
+    border-radius: 4px;
+  }
+
+  .view-more-link:hover {
+    background-color: rgba(59, 7, 100, 0.1);
+  }
+
+  /* Responsive adjustments for accomplishments grid */
+  @media (max-width: 768px) {
+    .accomplishments-grid {
+      gap: 16px;
+    }
+    
+    .accomplishments-section .container {
+      padding: 0;
+      padding-left: 0;
+      padding-right: 0;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .accomplishment-card {
+      max-width: 100%;
+    }
+    
+    .section-title {
+      font-size: 36px;
+      margin-bottom: 40px;
+    }
+  }
+
+  /* Campaign Platform Section Styles */
+  .campaign-platform {
+    position: relative;
+    width: 100%;
+    padding: 80px 0;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    margin: 80px 0;
+    clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 90%);
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .platform-bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .platform-bg-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    opacity: 0.6;
+    z-index: 1;
+  }
+
+  .platform-bg-overlay .background-image {
+    z-index: 0;
+  }
+
+  .platform-container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    padding-bottom: 24px;
+    background-color: transparent;
+  }
+
+  .platform-heading {
+    color: var(--white-color);
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  /* Tabs Container to group tabs and content */
+  .platform-tabs-container {
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+
+    @media (max-width: 768px) {
+      padding: 0 16px;
+    }
+  }
+
+  /* Platform Categories with Icons */
+  .platform-categories {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin: 0 40px;
+    position: relative;
+    z-index: 3;
+    width: calc(100% - 80px);
+  }
+
+  /* Mobile adjustments for platform categories */
+  @media (max-width: 640px) {
+    .campaign-platform {
+      background-color: var(--primary-color);
+      position: relative;
+    }
+  
+    .platform-container {
+      background-color: transparent;
+      padding: 40px 0;
+      width: 100%;
+      max-width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .platform-bg-overlay {
+      display: block !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      z-index: 1 !important;
+    }
+    
+    .platform-bg-overlay::after {
+      content: '' !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      background-color: var(--primary-color) !important;
+      opacity: 0.6 !important;
+      z-index: 1 !important;
+    }
+    
+    .platform-bg-overlay .background-image {
+      opacity: 0.4 !important;
+      mix-blend-mode: multiply !important;
+    }
+
+    .platform-tabs-container {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    .platform-categories {
+      gap: 0;
+      margin: 0;
+      width: 100%;
+      justify-content: space-around;
+      padding: 0;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      background-color: var(--primary-color);
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+    
+    .platform-category {
+      padding: 4px;
+      width: auto;
+      min-width: 60px;
+      flex: 0 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+    
+    .platform-category span {
+      display: none;
+    }
+    
+    .platform-icon-container {
+      margin: 0;
+      padding: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .platform-icon {
+      width: 24px;
+      height: 24px;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .platform-content-card {
+      border-radius: 0 0 12px 12px !important;
+      border-top-left-radius: 0 !important;
+      border-top-right-radius: 0 !important;
+      padding: 24px 16px;
+      background-color: var(--white-color);
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+
+      @media (max-width: 768px) {
+        padding: 0 16px;
+      }
+    }
+    
+    .platform-item {
+      flex: 1 1 100%;
+      min-width: 100%;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0 0 24px 0;
+      display: block;
+    }
+    
+    .platform-item-title {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    
+    .platform-item-description {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      word-break: break-word;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      white-space: normal;
+      display: block;
+      padding-right: 0;
+    }
+  }
+
+  .platform-category {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--white-color);
+    font-weight: 700;
+    padding: 16px 20px;
+    border-radius: 12px 12px 0 0;
+    position: relative;
+    background-color: var(--primary-color);
+    flex: 1;
+    text-align: center;
+    gap: 0;
+  }
+  
+  .platform-category:not(.active) {
+    background-color: #3B0764;
+  }
+
+  .platform-category.active {
+    color: var(--white-color);
+    background-color: var(--white-color);
+    color: var(--primary-color);
+  }
+
+  .platform-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border-radius: 8px;
+    margin-bottom: 0;
+    margin-right: 8px;
+    color: var(--white-color);
+  }
+
+  .platform-category.active .platform-icon-container {
+    background-color: var(--white-color);
+    color: var(--primary-color);
+  }
+
+  .platform-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .platform-category span {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  /* Platform Content Card */
+  .platform-content-card {
+    background-color: var(--white-color);
+    border-radius: 12px;
+    padding: 32px 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+  }
+
+  .platform-item {
+    margin-bottom: 32px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .platform-item-title {
+    color: var(--primary-color);
+    font-size: 1rem;
+    margin-bottom: 16px;
+    font-weight: 700;
+  }
+
+  .platform-item-description {
+    color: var(--primary-color);
+    line-height: 1.6;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .campaign-platform {
+      clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
+      padding: 80px 16px;
+    }
+  
+    .platform-heading {
+      font-size: 2rem;
+    }
+  
+    .platform-tabs-container {
+      padding: 0;
+    }
+  
+    .platform-categories {
+      flex-direction: row;
+      width: 100%;
+      margin: 0;
+    }
+  
+    .platform-category {
+      border-radius: 12px 12px 0 0;
+      width: auto;
+    }
+  
+    .platform-content-card {
+      flex-direction: column;
+      border-radius: 12px;
+      padding: 24px 16px;
+    }
+    
+    .platform-item {
+      width: 100%;
+    }
+    
+    .platform-item-description {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      word-break: break-word;
+      hyphens: auto;
+    }
+  }
+
+  /* General mobile padding adjustments */
+  @media (max-width: 640px) {
+    .section-container {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+  }
+}
+
+/* Responsive Adjustments for Hero Section */
+@media (max-width: 768px) {
+  /* Hero section mobile adjustments */
+  .hero-section {
+    overflow: visible;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: visible; /* Allow content to overflow */
+  }
+  
+  .hero-background {
+    height: auto;
+    padding: 0;
+    margin: 0;
+    clip-path: none; /* Remove diagonal cut for mobile */
+    width: 100%;
+    max-width: 100%;
+    overflow: visible; /* Allow content to overflow */
+  }
+  
+  /* Logo adjustments for mobile */
+  .logo-container {
+    position: absolute;
+    left: 0;
+    top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 40;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .logo-image {
+    width: 80%;
+    max-width: 240px;
+    height: auto;
+  }
+  
+  .content-wrapper {
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    overflow: visible; /* Allow content to overflow */
+  }
+  
+  /* Hero text adjustments */
+  .hero-text {
+    width: 100%;
+    order: 1;
+    margin: 0;
+    padding-top: 80px;
+    padding-bottom: 20px;
+    padding-left: 0;
+    padding-right: 0;
+    max-height: none;
+    text-align: center;
+  }
+  
+  /* Fix for the hero heading on mobile */
+  .hero-heading {
+    font-size: 42px;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    text-align: center;
+    white-space: normal; /* Allow wrapping */
+  }
+  
+  /* Remove the pseudo-element approach that was hiding the text */
+  .hero-heading::before {
+    content: none;
+  }
+  
+  .hero-heading span {
+    display: inline; /* Show the original text */
+  }
+  
+  .hero-subheading {
+    font-size: 22px;
+    text-align: center;
+    padding: 0 16px; /* Add some horizontal padding to the subheading */
+    margin-bottom: 0;
+  }
+  
+  /* Candidate image adjustments - ensure truly full width */
+  .candidate-image-container {
+    width: 100%;
+    max-width: 100%;
+    order: 2;
+    padding: 0;
+    margin: 0;
+    height: auto;
+    justify-content: center;
+    overflow: visible; /* Allow content to overflow */
+    position: relative;
+    left: 0;
+    right: 0;
+  }
+  
+  .image-wrapper {
+    width: 100%;
+    max-width: 100%;
+    height: 400px;
+    position: relative;
+    bottom: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible; /* Allow content to overflow */
+  }
+  
+  .candidate-image {
+    object-position: 50% 50% !important; /* Center the image horizontally and vertically */
+    transform: scale(1);
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    max-height: none; /* Remove max-height restriction */
+    max-width: none; /* Remove max-width restriction */
+  }
+  
+  /* White section and content columns mobile adjustments */
+  .white-section {
+    margin-top: 0;
+    padding-top: 40px; /* Add more padding at the top to create space */
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  .content-columns {
+    flex-direction: column;
+    padding: 0;
+    gap: 24px; /* Reduced gap to 24px */
+  }
+  
+  .content-column {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .content-column-video {
+    min-height: 400px; /* Increased height */
+    margin-top: 24px; /* Reduced from 40px to 24px to match the gap */
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+  
+  .video-player {
+    position: relative;
+    height: 400px; /* Taller height */
+    width: calc(100% - 32px); /* Full width minus 16px on each side */
+    max-width: none;
+    margin: 0 auto 24px; /* Center horizontally with auto margins */
+    aspect-ratio: 9/16; /* Portrait video aspect ratio */
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    transform: none;
+  }
+  
+  /* Campaign slogan mobile adjustments */
+  .campaign-slogan {
+    transform: rotate(0deg); /* Make it straight */
+    margin-top: 24px; /* Reduced from 40px to 24px */
+    text-align: center;
+    font-size: calc(42px * 0.75); /* 75% of the original size */
+  }
+  
+  .slogan-text {
+    font-size: calc(42px * 0.75); /* 75% of the original size */
+  }
+  
+  .english-slogan {
+    padding-left: 0;
+  }
+  
+  .campaign-slogan::before {
+    width: 60px;
+    height: 4px;
+  }
+}
+
+/* About Section */
+.about-section {
+  position: relative;
+  width: 100%;
+  background-color: rgba(59, 7, 100, 0.25);
+  color: var(--primary-color);
+  margin: 80px 0;
+  clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 90%);
+  min-height: 600px;
+  display: flex;
+  flex-direction: row;
+}
+
+.about-content-wrapper {
+  width: 50%;
+  padding: 80px 40px;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 2;
+}
+
+.about-content {
+  max-width: 600px;
+  padding-right: 40px;
+}
+
+.about-heading {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: var(--primary-color);
+}
+
+.about-text {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.about-text p {
+  margin-bottom: 16px;
+}
+
+.about-text p:last-child {
+  margin-bottom: 24px;
+}
+
+.about-image-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 45%;
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.about-image {
+  border-radius: 0;
+  box-shadow: none;
+  width: auto !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-position: center !important;
+}
+
+/* Responsive Design for About Section */
+@media (max-width: 768px) {
+  .about-section {
+    clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
+    flex-direction: column;
+    min-height: 800px;
+  }
+
+  .about-content-wrapper {
+    width: 100%;
+    padding: 40px 20px 80px;
+    justify-content: center;
+    order: 2;
+  }
+
+  .about-content {
+    max-width: 100%;
+    padding-right: 0;
+  }
+
+  .about-heading {
+    font-size: 2rem;
+    text-align: left;
+  }
+
+  .about-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    order: 1;
+  }
+}
+
+/* Donation Section Styles */
+.donation-section {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0;
+  background-color: var(--white-color);
+}
+
+.donation-button {
+  background-color: var(--accent-color);
+  color: var(--white-color);
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 16px 40px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+/* Endorsement Styles */
+.endorsement-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.endorsement-heading {
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.endorsement-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.endorsement-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Endorsement logo placeholders */
+.placeholder-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+}
+
+.logo-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  color: var(--white-color);
+  font-weight: bold;
+  font-size: 0.7rem;
+  text-align: center;
+}
+
+.placeholder-logo.hudson-valley .logo-circle {
+  background-color: #E41E26;
+}
+
+.placeholder-logo.run-for-something .logo-circle {
+  background-color: #000;
+}
+
+.for-the-many-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-logo.for-the-many {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: #E41E26;
+  font-size: 1.2rem;
+  font-weight: 900;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  margin-top: 5px;
+}
+
+.placeholder-logo.for-the-many span {
+  display: inline-block;
+  white-space: nowrap;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.many-text {
+  font-size: 1.8rem;
+  margin-left: 5px;
+  color: #E41E26;
+  font-weight: 900;
+}
+
+.placeholder-logo.working-families {
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 8px;
+  min-height: 80px;
+}
+
+.wfp-logo {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Donation Banner Styles */
+.donation-banner {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 20px auto 60px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: none;
+  height: 600px;
+  background-color: var(--white-color);
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+.donation-banner-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.donation-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 70%);
+}
+
+.donation-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.donation-text-overlay {
+  display: none;
+}
+
+.donation-logo-container {
+  margin-bottom: 30px;
+}
+
+.donation-logo {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.donation-button {
+  background-color: var(--accent-color);
+  color: var(--white-color);
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 16px 40px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+.donation-button:hover {
+  background-color: #c62368;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.donation-secondary-button {
+  background-color: transparent;
+  color: var(--white-color);
+  font-size: 1.25rem;
+  font-weight: 600;
+  padding: 14px 38px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 2px solid var(--white-color);
+  white-space: nowrap;
+}
+
+.donation-secondary-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-3px);
+}
+
+/* Responsive adjustments for donation section */
+@media (max-width: 768px) {
+  .endorsement-heading {
+    font-size: 2rem;
+  }
+  
+  .endorsement-logos {
+    gap: 20px;
+  }
+  
+  .donation-logo {
+    max-width: 400px;
+  }
+  
+  .donation-button {
+    font-size: 1.1rem;
+    padding: 14px 34px;
+  }
+  
+  .donation-banner {
+    height: 300px;
+  }
+}
+
+.video-thumbnail-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.video-thumbnail {
+  object-fit: cover;
+}
+
+.video-thumbnail-overlay {
+  display: none;
+}
+
+.footer {
+  background-color: var(--primary-color);
+  padding: 60px 0;
+  color: var(--white-color);
+}
+
+.footer-social-icons a {
+  margin-right: 16px;
+  color: var(--white-color);
+}
