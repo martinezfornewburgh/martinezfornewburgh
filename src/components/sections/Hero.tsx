@@ -1,52 +1,40 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export default function Hero() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
 
   const openFullscreenVideo = () => {
     setIsVideoOpen(true);
-    // Wait for the video element to be available in the DOM
-    setTimeout(() => {
-      if (videoRef.current) {
-        videoRef.current.play();
-        if (videoRef.current.requestFullscreen) {
-          videoRef.current.requestFullscreen();
-        } else if ((videoRef.current as any).webkitRequestFullscreen) {
-          (videoRef.current as any).webkitRequestFullscreen();
-        } else if ((videoRef.current as any).msRequestFullscreen) {
-          (videoRef.current as any).msRequestFullscreen();
-        }
-      }
-    }, 100);
   };
 
   const closeVideo = () => {
     setIsVideoOpen(false);
   };
 
-  // Handle fullscreen change event
-  const handleFullscreenChange = () => {
-    const isFullscreen = !!(
-      document.fullscreenElement ||
-      (document as any).webkitFullscreenElement ||
-      (document as any).msFullscreenElement
-    );
-    
-    if (!isFullscreen && isVideoOpen) {
-      setIsVideoOpen(false);
-    }
-  };
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const isFullscreen = document.fullscreenElement !== null;
+      if (!isFullscreen && isVideoOpen) {
+        setIsVideoOpen(false);
+      }
+    };
 
-  // Add fullscreen change event listeners
-  if (typeof window !== 'undefined') {
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-    document.addEventListener('msfullscreenchange', handleFullscreenChange);
-  }
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
+    };
+  }, [isVideoOpen]);
 
   return (
     <section className="hero-section">
@@ -170,7 +158,7 @@ export default function Hero() {
 
       {/* Fullscreen Video Player */}
       {isVideoOpen && (
-        <div className="fullscreen-video-container">
+        <div className="fullscreen-video-container" ref={videoContainerRef}>
           <button 
             className="video-close-button"
             aria-label="Close video"
@@ -181,14 +169,13 @@ export default function Hero() {
               <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
-          <video
-            ref={videoRef}
-            src="/images/MARTINEZ CAMPAIGN VIDEO v2.mp4"
+          <iframe
+            src="https://next.frame.io/share/67bdabca-c04b-4ac3-ac45-788be50a384b/view/8aea00a5-c404-4c20-8c30-fa3fc590c9f9"
             className="campaign-video"
-            controls
-            playsInline
-            onEnded={closeVideo}
-          />
+            allow="autoplay; fullscreen"
+            allowFullScreen
+            title="Giselle Martinez Campaign Video"
+          ></iframe>
         </div>
       )}
     </section>
