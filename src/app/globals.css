@@ -1496,6 +1496,7 @@ body {
   .donation-button {
     font-size: 1.1rem;
     padding: 14px 34px;
+    margin-bottom: 40px; /* Increased bottom margin on mobile */
   }
   
   .donation-banner {
