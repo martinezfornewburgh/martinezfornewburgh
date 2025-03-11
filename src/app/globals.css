@@ -1234,6 +1234,11 @@ body {
     height: 400px;
     order: 1;
   }
+  
+  .about-image {
+    width: 100% !important;
+    object-fit: cover !important;
+  }
 }
 
 /* Donation Section Styles */
@@ -1243,7 +1248,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 0;
+  padding: 40px 0 56px; /* Added 16px padding at the bottom */
   background-color: var(--white-color);
 }
 
@@ -1408,22 +1413,25 @@ body {
 }
 
 .donation-content {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
   width: 100%;
-  height: 100%;
-  padding: 0;
-}
-
-.donation-text-overlay {
-  display: none;
+  padding: 0 20px;
 }
 
 .donation-logo-container {
   margin-bottom: 30px;
+}
+
+.donation-cta-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  padding-bottom: 16px; /* Added padding at the bottom */
 }
 
 .donation-logo {
