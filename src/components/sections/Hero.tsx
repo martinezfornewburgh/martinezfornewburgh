@@ -2,10 +2,12 @@
 
 import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
+import Script from 'next/script';
 
 export default function Hero() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement>(null);
+  const playerContainerRef = useRef<HTMLDivElement>(null);
 
   const openFullscreenVideo = () => {
     setIsVideoOpen(true);
@@ -34,6 +36,37 @@ export default function Hero() {
       document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
       document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
     };
+  }, [isVideoOpen]);
+
+  // Initialize Frame.io player when video modal is opened
+  useEffect(() => {
+    if (isVideoOpen && playerContainerRef.current) {
+      // Make sure the Frame.io player script is loaded
+      const script = document.createElement('script');
+      script.src = 'https://player.frame.io/player.js';
+      script.async = true;
+      script.onload = () => {
+        if (playerContainerRef.current && (window as any).FrameioPlayer) {
+          const player = new (window as any).FrameioPlayer(playerContainerRef.current, {
+            id: '8aea00a5-c404-4c20-8c30-fa3fc590c9f9',
+            token: '67bdabca-c04b-4ac3-ac45-788be50a384b',
+            autoplay: true,
+            showControls: true,
+            showPlayButton: true,
+            showFullScreenButton: true,
+            showTimecodes: true,
+          });
+        }
+      };
+      document.body.appendChild(script);
+
+      return () => {
+        // Clean up script when component unmounts
+        if (document.body.contains(script)) {
+          document.body.removeChild(script);
+        }
+      };
+    }
   }, [isVideoOpen]);
 
   return (
@@ -169,13 +202,10 @@ export default function Hero() {
               <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
-          <iframe
-            src="https://embed.frame.io/67bdabca-c04b-4ac3-ac45-788be50a384b/8aea00a5-c404-4c20-8c30-fa3fc590c9f9"
+          <div 
+            ref={playerContainerRef} 
             className="campaign-video"
-            allow="autoplay; fullscreen"
-            allowFullScreen
-            title="Giselle Martinez Campaign Video"
-          ></iframe>
+          ></div>
         </div>
       )}
     </section>
