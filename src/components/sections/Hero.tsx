@@ -68,9 +68,6 @@ export default function Hero() {
         <div className="site-header">
           {/* Navigation */}
           <nav className="main-navigation">
-            <a href="#accomplishments" className="nav-link">Accomplishments</a>
-            <a href="#campaign-goals" className="nav-link">Campaign Goals</a>
-            <a href="#about" className="nav-link">About Giselle</a>
             <a href="https://secure.actblue.com/donate/martinezfornewburgh?refcode=ab_qr_code&utm_source=qr_code" className="donate-button" target="_blank" rel="noopener noreferrer">Donate</a>
           </nav>
         </div>
