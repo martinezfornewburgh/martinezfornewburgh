@@ -170,7 +170,7 @@ export default function Hero() {
             </svg>
           </button>
           <iframe
-            src="https://next.frame.io/share/67bdabca-c04b-4ac3-ac45-788be50a384b/view/8aea00a5-c404-4c20-8c30-fa3fc590c9f9"
+            src="https://embed.frame.io/67bdabca-c04b-4ac3-ac45-788be50a384b/8aea00a5-c404-4c20-8c30-fa3fc590c9f9"
             className="campaign-video"
             allow="autoplay; fullscreen"
             allowFullScreen
