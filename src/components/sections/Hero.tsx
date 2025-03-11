@@ -2,12 +2,10 @@
 
 import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
-import Script from 'next/script';
 
 export default function Hero() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const videoContainerRef = useRef<HTMLDivElement>(null);
-  const playerContainerRef = useRef<HTMLDivElement>(null);
 
   const openFullscreenVideo = () => {
     setIsVideoOpen(true);
@@ -38,30 +36,15 @@ export default function Hero() {
     };
   }, [isVideoOpen]);
 
-  // Initialize Frame.io player when video modal is opened
+  // Load Vimeo player script
   useEffect(() => {
-    if (isVideoOpen && playerContainerRef.current) {
-      // Make sure the Frame.io player script is loaded
+    if (isVideoOpen) {
       const script = document.createElement('script');
-      script.src = 'https://player.frame.io/player.js';
+      script.src = 'https://player.vimeo.com/api/player.js';
       script.async = true;
-      script.onload = () => {
-        if (playerContainerRef.current && (window as any).FrameioPlayer) {
-          const player = new (window as any).FrameioPlayer(playerContainerRef.current, {
-            id: '8aea00a5-c404-4c20-8c30-fa3fc590c9f9',
-            token: '67bdabca-c04b-4ac3-ac45-788be50a384b',
-            autoplay: true,
-            showControls: true,
-            showPlayButton: true,
-            showFullScreenButton: true,
-            showTimecodes: true,
-          });
-        }
-      };
       document.body.appendChild(script);
 
       return () => {
-        // Clean up script when component unmounts
         if (document.body.contains(script)) {
           document.body.removeChild(script);
         }
@@ -202,10 +185,15 @@ export default function Hero() {
               <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
-          <div 
-            ref={playerContainerRef} 
-            className="campaign-video"
-          ></div>
+          <div className="vimeo-container">
+            <iframe 
+              src="https://player.vimeo.com/video/1064514717?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&autoplay=1" 
+              frameBorder="0" 
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
+              className="vimeo-iframe"
+              title="Giselle Martinez Campaign Video"
+            ></iframe>
+          </div>
         </div>
       )}
     </section>
