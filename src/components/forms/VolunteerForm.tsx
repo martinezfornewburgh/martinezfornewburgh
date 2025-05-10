@@ -1,7 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import emailjs from '@emailjs/browser';
+
+// Initialize EmailJS - moved to component to ensure it runs in the client environment
+// This prevents issues with server-side rendering
 
 // Form field interface
 interface FormField {
@@ -19,6 +22,13 @@ interface FormState {
 }
 
 const VolunteerForm: React.FC = () => {
+  // Create a ref for the form element
+  const form = useRef<HTMLFormElement>(null);
+  
+  // Initialize EmailJS in useEffect to ensure client-side execution
+  useEffect(() => {
+    emailjs.init('pq1blvYkBNCBaYVQO');
+  }, []);
   // Form state
   const [formState, setFormState] = useState<FormState>({
     name: { value: '', error: '' },
@@ -145,24 +155,40 @@ const VolunteerForm: React.FC = () => {
     setIsSubmitting(true);
     setSubmitError('');
 
-    // Prepare template parameters for EmailJS
-    const templateParams = {
-      from_name: formState.name.value,
-      from_email: formState.email.value,
-      from_address: formState.address.value,
-      from_phone: formState.phone.value,
-      message: formState.comment.value,
-    };
-
     try {
-      // Send email using EmailJS
-      // You'll need to replace these IDs with your actual EmailJS service, template, and user IDs
-      await emailjs.send(
-        'service_c3resqj',
-        'template_f03jlf8',
-        templateParams,
-        'pq1blvYkBNCBaYVQO'
-      );
+      // Using the alternate approach with form reference and hidden fields
+      // Create a hidden form for EmailJS to use, with all data from our state
+      if (form.current) {
+        const formData = new FormData();
+        
+        // Add all form fields to formData
+        formData.append('from_name', formState.name.value);
+        formData.append('to_name', 'Giselle Martinez Campaign');
+        formData.append('from_email', formState.email.value);
+        formData.append('reply_to', formState.email.value);
+        formData.append('to_email', 'martinezfornewburgh@gmail.com'); // Explicitly set recipient email
+        formData.append('from_address', formState.address.value); // Changed to match template
+        formData.append('from_phone', formState.phone.value);    // Changed to match template
+        formData.append('message', formState.comment.value || 'No comment provided');
+        
+        // Create a temporary form element with all data fields as hidden inputs
+        const hiddenForm = document.createElement('form');
+        formData.forEach((value, key) => {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = key;
+          input.value = value.toString();
+          hiddenForm.appendChild(input);
+        });
+        
+        // Send email using EmailJS's sendForm method
+        await emailjs.sendForm(
+          'service_c3resqj',
+          'template_f03jlf8', 
+          hiddenForm,
+          'pq1blvYkBNCBaYVQO'
+        );
+      }
 
       // Reset form on success
       setFormState({
@@ -177,7 +203,11 @@ const VolunteerForm: React.FC = () => {
       setTimeout(() => setSubmitSuccess(false), 5000); // Hide success message after 5 seconds
     } catch (error) {
       console.error('Failed to send email:', error);
-      setSubmitError('Failed to submit form. Please try again later.');
+      // Provide more detailed error message for debugging
+      const errorMsg = error instanceof Error 
+        ? `Error: ${error.message}` 
+        : 'Failed to submit form. Please try again later.';
+      setSubmitError(errorMsg);
     } finally {
       setIsSubmitting(false);
     }
@@ -202,7 +232,7 @@ const VolunteerForm: React.FC = () => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="volunteer-form" style={{ width: '100%', maxWidth: '100%' }}>
+      <form ref={form} onSubmit={handleSubmit} className="volunteer-form" style={{ width: '100%', maxWidth: '100%' }}>
         <div className="form-group">
           <label htmlFor="name" className="form-label">Name*</label>
           <input
