@@ -2,10 +2,16 @@
 
 import React from 'react';
 import Image from 'next/image';
+import VolunteerForm from '../forms/VolunteerForm';
 
 export const DonationSection: React.FC = () => {
   return (
     <section className="donation-section">
+      {/* Volunteer Form Section */}
+      <div className="volunteer-section-no-bg">
+        <VolunteerForm />
+      </div>
+      
       {/* Endorsement Section */}
       <div className="endorsement-container">
         <h2 className="endorsement-heading">Endorsed By</h2>
