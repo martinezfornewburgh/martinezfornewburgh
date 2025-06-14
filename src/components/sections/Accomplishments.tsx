@@ -7,8 +7,8 @@ export default function Accomplishments() {
     <section className="section-container accomplishments-section" id="accomplishments">
       <div className="container mx-auto">
         <h2 className="section-title">
-          Building A Stronger & <br />
-          Brighter Newburgh For All
+          Fighting For A Safe & <br />
+          Affordable Newburgh For All
         </h2>
         
         <div className="accomplishments-grid">

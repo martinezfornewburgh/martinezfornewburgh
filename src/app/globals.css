@@ -20,6 +20,22 @@ body {
 }
 
 @layer components {
+  .no-bottom-padding {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  .platform-content-card.no-bottom-padding .platform-item {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .platform-item-description {
+    text-align: center;
+    width: 100%;
+  }
+
   .container {
     @apply px-4 md:px-8 mx-auto max-w-7xl;
   }

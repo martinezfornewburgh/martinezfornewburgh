@@ -11,19 +11,26 @@ export const AboutGiselle: React.FC = () => {
           <h2 className="about-heading">From Newburgh,<br/>For Newburgh</h2>
           <div className="about-text">
             <p>
-              Giselle Martinez is a lifelong City of Newburgh resident, first-generation American, and proud 
-              daughter of Mexican immigrant parents. Her early experiences of economic and racial 
-              disparities inspired her to get involved with her community and become a fierce advocate for 
-              housing and environmental justice, infrastructure restoration, and public safety.
+              In 2021, Giselle became the youngest Councilmember elected in the City of Newburgh. She's fought hard to improve our quality of life and is fighting to create a safe and an affordable Newburgh for all.
             </p>
             <p>
-              In 2021, Martinez made history as the youngest member elected to the Newburgh City Council. 
-              For over a decade, she has been a dedicated community leader, actively volunteering with 
-              several local non-profits and serving her community. Her extensive experience spans 
-              working in federal, state, and local government, along with serving in various capacities for 
-              political committees. Currently, she is a housing paralegal at the Hudson Valley Justice Center, a 
-              nonprofit law firm. Martinez holds a Bachelor's degree in Political Science from Mount Saint 
-              Mary College and a Master's degree in Public Administration from Marist College.
+              <ul>
+  <li>
+  • Born and raised in Newburgh
+</li>
+<li>
+  • Experienced public servant, having worked in federal, state, and local government for almost a decade
+</li>
+<li>
+  • Went to Newburgh schools and earned a Masters in Public Administration at Marist University
+</li>
+<li>
+  • Working class advocate, both on city council and as a housing paralegal for the Hudson Valley Justice Center
+</li>
+<li>
+  • Endorsed by the Newburgh City Democratic Committee &amp; New York Working Families Party
+</li>
+</ul>
             </p>
           </div>
         </div>
